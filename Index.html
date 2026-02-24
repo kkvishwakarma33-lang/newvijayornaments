@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Vijay Ornaments | Sirmour</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+body{
+background:linear-gradient(-45deg,#000,#111,#1a1a1a,#000);
+background-size:400% 400%;
+animation:gradientFlow 15s ease infinite;
+color:#fff;
+overflow-x:hidden;
+}
+@keyframes gradientFlow{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* HEADER */
+header{
+position:fixed;width:100%;padding:15px 20px;
+display:flex;justify-content:space-between;align-items:center;
+background:#111;border-bottom:1px solid gold;z-index:1000;
+}
+header img{height:45px}
+
+.menuIcon{color:gold;font-size:22px;cursor:pointer;position:relative}
+#menuBox{
+display:none;position:absolute;right:10px;top:60px;
+background:#111;padding:15px;border:1px solid gold;
+border-radius:10px;flex-direction:column;gap:10px;
+}
+#menuBox a{color:#fff;text-decoration:none;display:block;margin:5px 0}
+#menuBox a:hover{color:gold}
+.cartBadge{
+position:absolute;top:-5px;right:-8px;
+background:red;color:#fff;border-radius:50%;
+font-size:12px;padding:2px 6px;
+}
+
+/* HERO */
+.hero{
+height:100vh;display:flex;flex-direction:column;
+justify-content:center;align-items:center;text-align:center;
+padding:20px;
+}
+.hero h1{
+font-size:38px;
+background:linear-gradient(90deg,gold,#fff,gold);
+background-size:200%;
+-webkit-background-clip:text;
+color:transparent;
+animation:shine 4s linear infinite;
+}
+@keyframes shine{
+0%{background-position:-200%}
+100%{background-position:200%}
+}
+.rateBox{
+margin-top:10px;padding:6px 15px;
+border:1px solid gold;border-radius:20px;
+background:rgba(255,215,0,0.1);
+}
+
+/* SECTION */
+.section{padding:80px 20px;text-align:center}
+.section h2{color:gold;margin-bottom:30px}
+
+/* PRODUCTS */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+}
+.card{
+background:#111;border:1px solid gold;
+padding:15px;border-radius:10px;
+box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+.card img{width:100%;border-radius:10px}
+button{
+background:gold;border:none;
+padding:6px 12px;border-radius:20px;
+cursor:pointer;margin-top:8px;
+}
+
+/* CART */
+#cartBox{
+position:fixed;right:-320px;top:0;
+width:300px;height:100%;
+background:#111;border-left:2px solid gold;
+padding:20px;transition:0.4s;overflow:auto;z-index:2000;
+}
+#cartBox h3{color:gold}
+
+/* REVIEW */
+.review{
+background:#111;padding:15px;margin:10px;
+border:1px solid gold;border-radius:10px;
+}
+
+input{
+width:100%;padding:8px;margin-top:8px;
+border-radius:5px;border:none;
+}
+
+footer{
+padding:20px;text-align:center;
+border-top:1px solid gold;
+}
+iframe{border-radius:10px;margin-top:20px}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="logo.jpg">
+<div style="position:relative">
+<i class="fas fa-ellipsis-v menuIcon" onclick="toggleMenu()">
+<span id="cartCount" class="cartBadge">0</span>
+</i>
+<div id="menuBox">
+<a href="#collection">Collection</a>
+<a href="#checkout">Checkout</a>
+<a href="#contact">Contact</a>
+<a href="javascript:void(0)" onclick="toggleCart()">Open Cart</a>
+</div>
+</div>
+</header>
+
+<section class="hero">
+<h1>New Vijay Ornaments</h1>
+<p>Luxury Gold & Silver Jewellery | Sirmour</p>
+<p>Owner: <span style="color:gold">Sandeep Soni</span></p>
+<div class="rateBox" id="goldRate">Loading Gold Rate...</div>
+<div class="rateBox" id="silverRate">Loading Silver Rate...</div>
+</section>
+
+<section class="section" id="collection">
+<h2>Our Collection</h2>
+<div class="grid">
+<div class="card">
+<img src="ring1.jpg">
+<h3>Gold Ring (8g)</h3>
+<p class="price" data-weight="8" data-type="gold">Loading...</p>
+<button onclick="addToCart('Gold Ring',8,'gold')">Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="silver1.jpg">
+<h3>Silver Anklet (15g)</h3>
+<p class="price" data-weight="15" data-type="silver">Loading...</p>
+<button onclick="addToCart('Silver Anklet',15,'silver')">Add to Cart</button>
+</div>
+</div>
+</section>
+
+<section class="section" id="checkout">
+<h2>Checkout</h2>
+<input type="text" id="custName" placeholder="Customer Name">
+<input type="text" id="custPhone" placeholder="Phone Number">
+<button onclick="sendOrder()">Order via WhatsApp</button>
+<button onclick="generateInvoice()">Download Invoice PDF</button>
+</section>
+
+<section class="section" id="contact">
+<h2>Visit Our Store</h2>
+<p>📍 Sirmour, In Front of Police Station<br>📞 +91 9630602966</p>
+<iframe width="100%" height="300"
+src="https://www.google.com/maps?q=24.835995,81.365021&z=17&output=embed"></iframe>
+</section>
+
+<div id="cartBox">
+<h3>Your Cart</h3>
+<button onclick="toggleCart()" style="background:red;color:white;">Close</button>
+<ul id="cartList"></ul>
+<p id="cartTotal">Total: ₹0</p>
+</div>
+
+<footer>
+© 2026 New Vijay Ornaments | Owner: Sandeep Soni
+</footer>
+
+<script>
+let cart=[];
+let goldPerGram=0;
+let silverPerGram=0;
+
+function toggleMenu(){
+let box=document.getElementById("menuBox");
+box.style.display=(box.style.display=="flex")?"none":"flex";
+}
+function toggleCart(){
+let c=document.getElementById("cartBox");
+c.style.right=(c.style.right=="0px")?"-320px":"0px";
+}
+
+async function fetchRates(){
+try{
+const g=await fetch("https://api.gold-api.com/price/XAU");
+const s=await fetch("https://api.gold-api.com/price/XAG");
+const gd=await g.json();
+const sd=await s.json();
+const usd=83;
+goldPerGram=(gd.price*usd)/31.1035;
+silverPerGram=(sd.price*usd)/31.1035;
+
+document.getElementById("goldRate").innerText="Live Gold (10g): ₹ "+(goldPerGram*10).toFixed(0);
+document.getElementById("silverRate").innerText="Live Silver (10g): ₹ "+(silverPerGram*10).toFixed(0);
+updatePrices();
+}catch{}
+}
+fetchRates();
+setInterval(fetchRates,60000);
+
+function updatePrices(){
+document.querySelectorAll(".price").forEach(el=>{
+let w=el.dataset.weight;
+let type=el.dataset.type;
+let rate=(type=="gold")?goldPerGram:silverPerGram;
+let total=(rate*w)+(300*w);
+el.innerText="Approx Price: ₹"+total.toFixed(0);
+});
+}
+
+function addToCart(name,weight,type){
+let rate=(type=="gold")?goldPerGram:silverPerGram;
+let price=(rate*weight)+(300*weight);
+cart.push({name,price});
+renderCart();
+}
+
+function renderCart(){
+let list=document.getElementById("cartList");
+list.innerHTML="";
+let total=0;
+cart.forEach((item,i)=>{
+total+=item.price;
+let li=document.createElement("li");
+li.innerHTML=item.name+" - ₹"+item.price.toFixed(0)+" <button onclick='removeItem("+i+")'>X</button>";
+list.appendChild(li);
+});
+document.getElementById("cartTotal").innerText="Total: ₹"+total.toFixed(0);
+document.getElementById("cartCount").innerText=cart.length;
+}
+
+function removeItem(i){
+cart.splice(i,1);
+renderCart();
+}
+
+function sendOrder(){
+let name=document.getElementById("custName").value;
+let phone=document.getElementById("custPhone").value;
+let total=document.getElementById("cartTotal").innerText;
+let msg="Order from "+name+"%0APhone: "+phone+"%0A"+total;
+window.open("https://wa.me/919630602966?text="+msg);
+}
+
+async function generateInvoice(){
+const { jsPDF } = window.jspdf;
+const doc=new jsPDF();
+let name=document.getElementById("custName").value||"Customer";
+let phone=document.getElementById("custPhone").value||"N/A";
+doc.text("New Vijay Ornaments",20,20);
+doc.text("Owner: Sandeep Soni",20,28);
+doc.text("Customer: "+name,20,40);
+doc.text("Phone: "+phone,20,48);
+let y=60,total=0;
+cart.forEach(item=>{
+doc.text(item.name+" - ₹"+item.price.toFixed(0),20,y);
+total+=item.price;y+=8;
+});
+let gst=total*0.03;
+doc.text("Subtotal: ₹"+total.toFixed(0),20,y+10);
+doc.text("GST (3%): ₹"+gst.toFixed(0),20,y+18);
+doc.text("Total: ₹"+(total+gst).toFixed(0),20,y+26);
+doc.save("Invoice_NewVijayOrnaments.pdf");
+}
+</script>
+
+</body>
+</html>
