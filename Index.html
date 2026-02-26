@@ -4,288 +4,1139 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>New Vijay Ornaments | Sirmour</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
-body{
-background:linear-gradient(-45deg,#000,#111,#1a1a1a,#000);
-background-size:400% 400%;
-animation:gradientFlow 15s ease infinite;
-color:#fff;
-overflow-x:hidden;
-}
-@keyframes gradientFlow{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
+:root{--gold:#c9a84c;--gold-light:#e8c96a;--gold-pale:#f5e6b0;--gold-dim:rgba(201,168,76,0.15);--black:#080808;--dark:#0f0f0f;--dark2:#161616;--text:#d8d0c0;--text-dim:#8a7f6a;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease;opacity:0.6;}
 
 /* HEADER */
-header{
-position:fixed;width:100%;padding:15px 20px;
-display:flex;justify-content:space-between;align-items:center;
-background:#111;border-bottom:1px solid gold;z-index:1000;
-}
-header img{height:45px}
+header{position:fixed;top:0;width:100%;z-index:1000;padding:0 48px;display:flex;justify-content:space-between;align-items:center;height:76px;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.25);transition:all 0.4s;}
+header.scrolled{height:62px;border-bottom-color:var(--gold);}
+.logo-area img{height:54px;width:auto;object-fit:contain;}
+nav{display:flex;align-items:center;gap:32px;}
+nav a{color:var(--text-dim);text-decoration:none;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;transition:color 0.3s;position:relative;}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s;}
+nav a:hover{color:var(--gold);}nav a:hover::after{width:100%;}
+.nav-icons{display:flex;align-items:center;gap:18px;}
+.icon-btn{background:none;border:none;color:var(--text-dim);font-size:16px;cursor:none;position:relative;transition:color 0.3s;padding:6px;}
+.icon-btn:hover{color:var(--gold);}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--gold);color:var(--black);border-radius:50%;font-size:9px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:600;}
+.mobile-menu-btn{display:none;background:none;border:none;color:var(--gold);font-size:20px;cursor:none;}
 
-.menuIcon{color:gold;font-size:22px;cursor:pointer;position:relative}
-#menuBox{
-display:none;position:absolute;right:10px;top:60px;
-background:#111;padding:15px;border:1px solid gold;
-border-radius:10px;flex-direction:column;gap:10px;
-}
-#menuBox a{color:#fff;text-decoration:none;display:block;margin:5px 0}
-#menuBox a:hover{color:gold}
-.cartBadge{
-position:absolute;top:-5px;right:-8px;
-background:red;color:#fff;border-radius:50%;
-font-size:12px;padding:2px 6px;
-}
+/* MOBILE NAV */
+#mobileNav{display:none;position:fixed;inset:0;z-index:3000;background:rgba(8,8,8,0.97);backdrop-filter:blur(12px);flex-direction:column;align-items:center;justify-content:center;gap:36px;}
+#mobileNav.open{display:flex;}
+#mobileNav a{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--text);text-decoration:none;letter-spacing:2px;transition:color 0.3s;}
+#mobileNav a:hover{color:var(--gold);}
+.mobile-close{position:absolute;top:24px;right:24px;background:none;border:1px solid rgba(201,168,76,0.3);color:var(--gold);width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:none;font-size:16px;}
 
 /* HERO */
-.hero{
-height:100vh;display:flex;flex-direction:column;
-justify-content:center;align-items:center;text-align:center;
-padding:20px;
-}
-.hero h1{
-font-size:38px;
-background:linear-gradient(90deg,gold,#fff,gold);
-background-size:200%;
--webkit-background-clip:text;
-color:transparent;
-animation:shine 4s linear infinite;
-}
-@keyframes shine{
-0%{background-position:-200%}
-100%{background-position:200%}
-}
-.rateBox{
-margin-top:10px;padding:6px 15px;
-border:1px solid gold;border-radius:20px;
-background:rgba(255,215,0,0.1);
-}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% 110%,rgba(201,168,76,0.12) 0%,transparent 70%),var(--black);}
+.hero-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(201,168,76,0.07);animation:slowSpin 30s linear infinite;pointer-events:none;}
+@keyframes slowSpin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+.hero-content{position:relative;z-index:2;}
+.hero-logo{height:150px;width:auto;margin-bottom:24px;filter:drop-shadow(0 0 40px rgba(201,168,76,0.5));opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;opacity:0;animation:fadeUp 0.8s 0.4s forwards;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--gold);opacity:0.5;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,8vw,96px);font-weight:300;line-height:1.0;color:transparent;background:linear-gradient(135deg,var(--gold-pale) 0%,var(--gold) 40%,var(--gold-light) 60%,var(--gold-pale) 100%);background-size:300%;-webkit-background-clip:text;background-clip:text;animation:shimmer 5s ease infinite,fadeUp 0.8s 0.5s forwards;opacity:0;}
+@keyframes shimmer{0%,100%{background-position:0%}50%{background-position:100%}}
+.hero-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto;opacity:0;animation:fadeUp 0.8s 0.7s forwards;}
+.hero-divider span{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.hero-divider span:last-child{background:linear-gradient(270deg,transparent,var(--gold));}
+.hero p{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin:4px 0;opacity:0;animation:fadeUp 0.8s 0.9s forwards;}
+.hero p strong{color:var(--gold-light);font-weight:500;}
+.rates-row{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 0.8s 1.0s forwards;}
+.rate-pill{padding:10px 22px;border:1px solid rgba(201,168,76,0.35);background:rgba(201,168,76,0.06);backdrop-filter:blur(10px);display:flex;align-items:center;gap:10px;transition:border-color 0.3s;}
+.rate-pill:hover{border-color:var(--gold);}
+.rate-label{color:var(--text-dim);font-size:10px;letter-spacing:1.5px;display:block;}
+.rate-value{color:var(--gold-light);font-size:16px;font-family:'Cormorant Garamond',serif;font-weight:600;}
+.hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 0.8s 1.2s forwards;}
+.scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.8s 1.4s forwards;color:var(--text-dim);font-size:9px;letter-spacing:3px;text-transform:uppercase;}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease infinite;}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
 /* SECTION */
-.section{padding:80px 20px;text-align:center}
-.section h2{color:gold;margin-bottom:30px}
+.section-header{text-align:center;margin-bottom:52px;}
+.section-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,58px);font-weight:300;color:var(--text);}
+.section-rule{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;}
+.section-rule span{width:50px;height:1px;background:rgba(201,168,76,0.4);}
+.section-rule i{color:var(--gold);font-size:12px;}
 
-/* PRODUCTS */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
-}
-.card{
-background:#111;border:1px solid gold;
-padding:15px;border-radius:10px;
-box-shadow:0 0 15px rgba(255,215,0,0.2);
-}
-.card img{width:100%;border-radius:10px}
-button{
-background:gold;border:none;
-padding:6px 12px;border-radius:20px;
-cursor:pointer;margin-top:8px;
-}
+/* FILTER */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:44px;}
+.filter-btn{background:none;border:1px solid rgba(201,168,76,0.2);color:var(--text-dim);padding:8px 18px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all 0.3s;font-family:'Montserrat',sans-serif;}
+.filter-btn:hover,.filter-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
 
-/* CART */
-#cartBox{
-position:fixed;right:-320px;top:0;
-width:300px;height:100%;
-background:#111;border-left:2px solid gold;
-padding:20px;transition:0.4s;overflow:auto;z-index:2000;
-}
-#cartBox h3{color:gold}
+/* PRODUCT GRID */
+#collection{background:var(--dark);padding:100px 0;}
+.collection-inner{max-width:1400px;margin:0 auto;padding:0 48px;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px;}
+.product-card{position:relative;overflow:hidden;background:var(--dark2);border:1px solid rgba(201,168,76,0.1);transition:border-color 0.4s;cursor:none;display:none;}
+.product-card.show{display:block;}
+.product-card:hover{border-color:rgba(201,168,76,0.45);}
+.product-card:hover .card-img{transform:scale(1.08);}
+.product-card:hover .card-overlay{opacity:1;}
+.product-card:hover .card-action{transform:translateY(0);opacity:1;}
+.card-image{position:relative;height:290px;overflow:hidden;background:var(--dark);display:flex;align-items:center;justify-content:center;}
+.card-img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);filter:brightness(0.92) saturate(0.9);}
+.card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--black);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;font-weight:600;z-index:2;}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.85),transparent 55%);opacity:0;transition:opacity 0.4s;z-index:1;}
+.card-action{position:absolute;bottom:0;left:0;right:0;padding:18px;transform:translateY(14px);opacity:0;transition:all 0.4s;z-index:3;}
+.card-info{padding:18px 18px 22px;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#e8dfc8;margin-bottom:4px;}
+.card-sub{font-size:10px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;}
+.card-price{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-top:10px;font-weight:600;}
+.card-price-note{font-size:10px;color:var(--text-dim);margin-top:2px;}
 
-/* REVIEW */
-.review{
-background:#111;padding:15px;margin:10px;
-border:1px solid gold;border-radius:10px;
-}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:none;transition:all 0.3s;font-family:'Montserrat',sans-serif;font-weight:500;}
+.btn-gold{background:var(--gold);color:var(--black);border:1px solid var(--gold);}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);}
+.btn-sm{padding:8px 16px;font-size:9px;}
 
-input{
-width:100%;padding:8px;margin-top:8px;
-border-radius:5px;border:none;
-}
+/* CART DRAWER */
+#cartDrawer{position:fixed;right:-400px;top:0;width:380px;height:100%;background:var(--dark);z-index:2000;border-left:1px solid rgba(201,168,76,0.3);padding:28px 24px;transition:right 0.4s cubic-bezier(0.25,0.46,0.45,0.94);display:flex;flex-direction:column;overflow-y:auto;}
+#cartDrawer.open{right:0;}
+.drawer-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(201,168,76,0.15);}
+.drawer-header h3{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold-light);}
+#cartOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1999;backdrop-filter:blur(4px);}
+#cartListDrawer,#cartList{list-style:none;}
+#cartListDrawer li,#cartList li{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:12px;}
+.item-name{color:var(--text);}
+.item-price{color:var(--gold-light);font-family:'Cormorant Garamond',serif;font-size:16px;}
+.remove-btn{background:none;border:1px solid rgba(201,168,76,0.2);color:var(--text-dim);width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:none;font-size:10px;transition:all 0.2s;min-width:24px;}
+.remove-btn:hover{border-color:#e05;color:#e05;}
+.cart-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:12px;color:var(--text-dim);}
+.cart-total-row.grand{font-size:20px;color:var(--gold-light);border-top:1px solid rgba(201,168,76,0.25);margin-top:8px;padding-top:14px;font-family:'Cormorant Garamond',serif;}
+.empty-cart{text-align:center;padding:36px;color:var(--text-dim);font-size:13px;}
+.empty-cart i{font-size:34px;color:rgba(201,168,76,0.2);margin-bottom:12px;display:block;}
 
-footer{
-padding:20px;text-align:center;
-border-top:1px solid gold;
+/* CHECKOUT */
+#checkout{background:var(--black);}
+.checkout-wrap{max-width:1200px;margin:0 auto;padding:100px 48px;}
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+.cart-summary{background:var(--dark2);border:1px solid rgba(201,168,76,0.15);padding:32px;}
+.cart-summary h3{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold-light);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(201,168,76,0.15);}
+.checkout-form{display:flex;flex-direction:column;gap:20px;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);}
+.form-group input{background:var(--dark2);border:1px solid rgba(201,168,76,0.2);color:var(--text);padding:14px 16px;font-size:13px;font-family:'Montserrat',sans-serif;outline:none;transition:border-color 0.3s;width:100%;}
+.form-group input:focus{border-color:var(--gold);}
+.form-group input::placeholder{color:rgba(216,208,192,0.3);}
+.checkout-actions{display:flex;flex-direction:column;gap:12px;margin-top:8px;}
+
+/* CONTACT */
+#contact{background:var(--dark);}
+.contact-inner{max-width:1400px;margin:0 auto;padding:100px 48px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.contact-info{display:flex;flex-direction:column;gap:22px;}
+.contact-block{display:flex;align-items:flex-start;gap:16px;padding:22px;border:1px solid rgba(201,168,76,0.12);background:var(--dark2);transition:border-color 0.3s;}
+.contact-block:hover{border-color:rgba(201,168,76,0.35);}
+.contact-icon{width:42px;height:42px;min-width:42px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;}
+.contact-label{font-size:10px;letter-spacing:2.5px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;}
+.contact-value{font-size:14px;color:var(--text);line-height:1.6;}
+.map-container iframe{width:100%;height:400px;border:0;filter:grayscale(1) brightness(0.6) sepia(0.4);border:1px solid rgba(201,168,76,0.2);transition:filter 0.3s;}
+.map-container:hover iframe{filter:grayscale(0.4) brightness(0.72);}
+
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid rgba(201,168,76,0.2);padding:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-copy{font-size:11px;color:var(--text-dim);letter-spacing:1px;}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{color:var(--text-dim);text-decoration:none;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s;}
+.footer-links a:hover{color:var(--gold);}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark2);border:1px solid var(--gold);color:var(--text);padding:14px 28px;font-size:12px;letter-spacing:1.5px;z-index:9999;transition:transform 0.4s;display:flex;align-items:center;gap:10px;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast i{color:var(--gold);}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s,transform 0.7s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  header{padding:0 20px;}nav{display:none;}
+  .mobile-menu-btn{display:flex;align-items:center;}
+  .checkout-grid{grid-template-columns:1fr;gap:40px;}
+  .contact-inner{grid-template-columns:1fr;gap:40px;padding:80px 24px;}
+  #cartDrawer{width:100%;right:-100%;}
+  footer{padding:32px 24px;flex-direction:column;gap:16px;}
+  .collection-inner{padding:0 24px;}
+  .checkout-wrap{padding:80px 24px;}
 }
-iframe{border-radius:10px;margin-top:20px}
+@media(max-width:640px){
+  .hero h1{font-size:40px;}.hero-logo{height:110px;}
+  .rates-row{flex-direction:column;gap:10px;align-items:center;}
+  .product-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:440px){.product-grid{grid-template-columns:1fr;}}
 </style>
 </head>
-
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-<header>
-<img src="logo.jpg">
-<div style="position:relative">
-<i class="fas fa-ellipsis-v menuIcon" onclick="toggleMenu()">
-<span id="cartCount" class="cartBadge">0</span>
-</i>
-<div id="menuBox">
-<a href="#collection">Collection</a>
-<a href="#checkout">Checkout</a>
-<a href="#contact">Contact</a>
-<a href="javascript:void(0)" onclick="toggleCart()">Open Cart</a>
+<!-- MOBILE NAV -->
+<div id="mobileNav">
+  <button class="mobile-close" onclick="closeMobileNav()"><i class="fas fa-times"></i></button>
+  <a href="#home" onclick="closeMobileNav()">Home</a>
+  <a href="#collection" onclick="closeMobileNav()">Collection</a>
+  <a href="#checkout" onclick="closeMobileNav()">Checkout</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
 </div>
+
+<div id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer">
+  <div class="drawer-header">
+    <h3>Your Cart</h3>
+    <button class="btn btn-outline btn-sm" onclick="closeCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <ul id="cartListDrawer"></ul>
+  <div id="drawerEmpty" class="empty-cart">
+    <i class="fas fa-gem"></i><p>Your cart is empty</p>
+    <p style="font-size:11px;margin-top:6px;">Browse our collection</p>
+  </div>
+  <div id="drawerTotals" style="display:none;margin-top:auto;padding-top:18px;border-top:1px solid rgba(201,168,76,0.15);">
+    <div class="cart-total-row"><span>Subtotal</span><span id="drawerSub">₹0</span></div>
+    <div class="cart-total-row"><span>GST (3%)</span><span id="drawerGST">₹0</span></div>
+    <div class="cart-total-row grand"><span>Total</span><span id="drawerTotal">₹0</span></div>
+    <div style="margin-top:16px;">
+      <a href="#checkout" onclick="closeCart()" class="btn btn-gold" style="text-decoration:none;justify-content:center;width:100%;display:flex;">
+        <i class="fas fa-arrow-right"></i> Checkout
+      </a>
+    </div>
+  </div>
 </div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="logo-area"><img src="logo.jpg" alt="New Vijay Ornaments"></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#collection">Collection</a>
+    <a href="#checkout">Checkout</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-icons">
+    <button class="icon-btn" onclick="toggleCart()">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+    <button class="mobile-menu-btn" onclick="openMobileNav()"><i class="fas fa-bars"></i></button>
+  </div>
 </header>
 
-<section class="hero">
-<h1>New Vijay Ornaments</h1>
-<p>Luxury Gold & Silver Jewellery | Sirmour</p>
-<p>Owner: <span style="color:gold">Sandeep Soni</span></p>
-<div class="rateBox" id="goldRate">Loading Gold Rate...</div>
-<div class="rateBox" id="silverRate">Loading Silver Rate...</div>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-ring" style="width:700px;height:700px;"></div>
+  <div class="hero-ring" style="width:480px;height:480px;animation-duration:20s;animation-direction:reverse;"></div>
+  <div class="hero-content">
+    <img src="logo.jpg" alt="New Vijay Ornaments" class="hero-logo">
+    <div class="hero-eyebrow"><i class="fas fa-gem"></i> Wholesaler of Gold &amp; Silver</div>
+    <h1>New Vijay<br>Ornaments</h1>
+    <div class="hero-divider"><span></span><i class="fas fa-diamond"></i><span></span></div>
+    <p>Finest Indian Gold Jewellery &nbsp;·&nbsp; Sirmour</p>
+    <p>Proprietor &nbsp;<strong>Sandeep Soni</strong></p>
+    <div class="rates-row">
+      <div class="rate-pill">
+        <i class="fas fa-circle" style="color:#ffd700;font-size:12px;"></i>
+        <div><span class="rate-label">Live Gold / 10g</span><span class="rate-value" id="goldRate">…</span></div>
+      </div>
+      <div class="rate-pill">
+        <i class="fas fa-circle" style="color:#c0c0c0;font-size:12px;"></i>
+        <div><span class="rate-label">Live Silver / 10g</span><span class="rate-value" id="silverRate">…</span></div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#collection" class="btn btn-gold"><i class="fas fa-gem"></i> View Collection</a>
+      <a href="#contact" class="btn btn-outline"><i class="fas fa-map-marker-alt"></i> Visit Store</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Explore</span><div class="scroll-line"></div></div>
 </section>
 
-<section class="section" id="collection">
-<h2>Our Collection</h2>
-<div class="grid">
-<div class="card">
-<img src="ring1.jpg">
-<h3>Gold Ring (8g)</h3>
-<p class="price" data-weight="8" data-type="gold">Loading...</p>
-<button onclick="addToCart('Gold Ring',8,'gold')">Add to Cart</button>
-</div>
+<!-- COLLECTION -->
+<section id="collection">
+<div class="collection-inner">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Crafted in Pure Gold</span>
+    <h2 class="section-title">Our Collection</h2>
+    <div class="section-rule"><span></span><i class="fas fa-diamond"></i><span></span></div>
+  </div>
+  <div class="filter-row reveal">
+    <button class="filter-btn active" onclick="filterCat(this,'all')">All Pieces</button>
+    <button class="filter-btn" onclick="filterCat(this,'necklace')">Necklaces</button>
+    <button class="filter-btn" onclick="filterCat(this,'choker')">Chokers</button>
+    <button class="filter-btn" onclick="filterCat(this,'earrings')">Earrings</button>
+    <button class="filter-btn" onclick="filterCat(this,'bangles')">Bangles</button>
+    <button class="filter-btn" onclick="filterCat(this,'nosering')">Nose Rings</button>
+  </div>
 
-<div class="card">
-<img src="silver1.jpg">
-<h3>Silver Anklet (15g)</h3>
-<p class="price" data-weight="15" data-type="silver">Loading...</p>
-<button onclick="addToCart('Silver Anklet',15,'silver')">Add to Cart</button>
-</div>
+  <div class="product-grid">
+
+    <!-- NECKLACES -->
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace1.jpg" alt="Bridal Gold Set">
+        <div class="card-badge">Bridal Set</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Bridal Gold Necklace Set',45,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Bridal Gold Set</div>
+        <div class="card-sub">22K · Necklace + Earrings + Tikka</div>
+        <div class="card-price" data-weight="45" data-type="gold">—</div>
+        <div class="card-price-note">Incl. making charges · Approx. price</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace2.jpg" alt="Hallmark Necklace">
+        <div class="card-badge">BIS Hallmark</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Hallmark Gold Necklace',25,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Hallmark Necklace</div>
+        <div class="card-sub">20KT BIS Certified Gold</div>
+        <div class="card-price" data-weight="25" data-type="gold">—</div>
+        <div class="card-price-note">Government certified purity</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace3.jpg" alt="Light Necklaces">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Light Gold Necklace (6.44g)',6.44,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Light Necklace</div>
+        <div class="card-sub">22K · 5.53g – 6.44g</div>
+        <div class="card-price" data-weight="6.44" data-type="gold">—</div>
+        <div class="card-price-note">Multiple weights available</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="img1.jpg" alt="Wedding Necklace Set">
+        <div class="card-badge">Wedding Set</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Wedding Gold Set',38,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Wedding Gold Set</div>
+        <div class="card-sub">22K · Necklace, Earrings &amp; Tikka</div>
+        <div class="card-price" data-weight="38" data-type="gold">—</div>
+        <div class="card-price-note">Full bridal set</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace4.jpg" alt="Classic Necklaces">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Classic Necklace (7.18g)',7.18,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Classic Necklace</div>
+        <div class="card-sub">22K · 6.92g – 7.18g</div>
+        <div class="card-price" data-weight="7.18" data-type="gold">—</div>
+        <div class="card-price-note">Traditional design</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace5.jpg" alt="Elegant Necklaces">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Elegant Necklace (8.14g)',8.14,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Elegant Necklace</div>
+        <div class="card-sub">22K · 7.00g – 8.14g</div>
+        <div class="card-price" data-weight="8.14" data-type="gold">—</div>
+        <div class="card-price-note">Handcrafted filigree work</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace6.jpg" alt="Gold Necklaces 8.14g 9.68g">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Meenakari Necklace (9.68g)',9.68,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Meenakari Necklace</div>
+        <div class="card-sub">22K · 8.14g – 9.68g · Round Centre</div>
+        <div class="card-price" data-weight="9.68" data-type="gold">—</div>
+        <div class="card-price-note">Multiple weights available</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace7.jpg" alt="Gold Necklaces 11.86g 18.66g">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Kundan Necklace (18.66g)',18.66,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Kundan Necklace</div>
+        <div class="card-sub">22K · 11.86g – 18.66g</div>
+        <div class="card-price" data-weight="18.66" data-type="gold">—</div>
+        <div class="card-price-note">Stone-set traditional design</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace8.jpg" alt="Gold Necklace 7.99g 9.67g">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Filigree Necklace (9.67g)',9.67,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Filigree Necklace</div>
+        <div class="card-sub">22K · 7.99g – 9.67g</div>
+        <div class="card-price" data-weight="9.67" data-type="gold">—</div>
+        <div class="card-price-note">Polki kundan work</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace9.jpg" alt="Gold Necklaces multi">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Grand Necklace (12.7g)',12.7,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Grand Necklace</div>
+        <div class="card-sub">22K · 9.47g – 12.70g · 4 Designs</div>
+        <div class="card-price" data-weight="12.7" data-type="gold">—</div>
+        <div class="card-price-note">Choose your preferred design</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace10.jpg" alt="Gold Necklaces 14.84g 19.66g">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Royal Necklace (19.66g)',19.66,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Royal Necklace</div>
+        <div class="card-sub">22K · 14.84g – 19.66g</div>
+        <div class="card-price" data-weight="19.66" data-type="gold">—</div>
+        <div class="card-price-note">Heavy bridal design</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="necklace">
+      <div class="card-image">
+        <img class="card-img" src="necklace11.jpg" alt="Gold Necklaces 9.47g 12.7g">
+        <div class="card-badge">Gold</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Classic Kundan Necklace (12.7g)',12.7,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Classic Kundan Set</div>
+        <div class="card-sub">22K · 9.47g – 12.70g · Stone Border</div>
+        <div class="card-price" data-weight="12.7" data-type="gold">—</div>
+        <div class="card-price-note">Mirror-polished finish</div>
+      </div>
+    </div>
+
+    <!-- CHOKERS -->
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker1.jpg" alt="Lotus Choker">
+        <div class="card-badge">Choker · 14.44g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Lotus Gold Choker (14.44g)',14.44,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Lotus Choker</div>
+        <div class="card-sub">22K · 14.44 Grams</div>
+        <div class="card-price" data-weight="14.44" data-type="gold">—</div>
+        <div class="card-price-note">Mandala centre piece</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker2.jpg" alt="Flower Choker 21g">
+        <div class="card-badge">Choker · 21.71g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Flower Gold Choker (21.71g)',21.71,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Flower Choker</div>
+        <div class="card-sub">22K · 21.71 Grams</div>
+        <div class="card-price" data-weight="21.71" data-type="gold">—</div>
+        <div class="card-price-note">Diamond-cut rose centre</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker3.jpg" alt="Sun Choker">
+        <div class="card-badge">Choker · 16.89g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Sun Gold Choker (16.89g)',16.89,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Sun Choker</div>
+        <div class="card-sub">22K · 16.89 Grams</div>
+        <div class="card-price" data-weight="16.89" data-type="gold">—</div>
+        <div class="card-price-note">Sunflower centre design</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker4.jpg" alt="Paisley Choker">
+        <div class="card-badge">Choker · 21.45g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Paisley Gold Choker (21.45g)',21.45,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Paisley Choker</div>
+        <div class="card-sub">22K · 21.45 Grams</div>
+        <div class="card-price" data-weight="21.45" data-type="gold">—</div>
+        <div class="card-price-note">Teardrop fringe border</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker5.jpg" alt="Choker 25.39g">
+        <div class="card-badge">Choker · 25.39g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Pearl Drop Choker (25.39g)',25.39,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Pearl Drop Choker</div>
+        <div class="card-sub">22K · 25.39 Grams</div>
+        <div class="card-price" data-weight="25.39" data-type="gold">—</div>
+        <div class="card-price-note">Dangling pearl bead fringe</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker6.jpg" alt="Choker 21.45g mesh">
+        <div class="card-badge">Choker · 21.45g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Mesh Flower Choker (21.45g)',21.45,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Mesh Flower Choker</div>
+        <div class="card-sub">22K · 21.45 Grams</div>
+        <div class="card-price" data-weight="21.45" data-type="gold">—</div>
+        <div class="card-price-note">Lattice mesh with floral clasp</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="choker">
+      <div class="card-image">
+        <img class="card-img" src="choker7.jpg" alt="Choker 20.83g">
+        <div class="card-badge">Choker · 20.83g</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Oval Bead Choker (20.83g)',20.83,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Oval Bead Choker</div>
+        <div class="card-sub">22K · 20.83 Grams</div>
+        <div class="card-price" data-weight="20.83" data-type="gold">—</div>
+        <div class="card-price-note">Oval seed bead top border</div>
+      </div>
+    </div>
+
+    <!-- EARRINGS -->
+    <div class="product-card show" data-cat="earrings">
+      <div class="card-image">
+        <img class="card-img" src="jhumka.jpg" alt="Jhumka Earring">
+        <div class="card-badge">Jhumka</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Gold Jhumka Earring (pair)',4,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Gold Jhumka</div>
+        <div class="card-sub">22K · Hoop with Green Beads</div>
+        <div class="card-price" data-weight="4" data-type="gold">—</div>
+        <div class="card-price-note">Per pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="earrings">
+      <div class="card-image">
+        <img class="card-img" src="earrings.jpg" alt="Gold Ear Tops">
+        <div class="card-badge">Ear Tops</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Gold Ear Tops (pair)',3,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Gold Ear Tops</div>
+        <div class="card-sub">22K · Floral Stud Designs</div>
+        <div class="card-price" data-weight="3" data-type="gold">—</div>
+        <div class="card-price-note">Multiple designs available</div>
+      </div>
+    </div>
+
+    <!-- BANGLES -->
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangles.jpg" alt="Dragon Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Gold Dragon Bangles (pair)',25,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Dragon Bangles</div>
+        <div class="card-sub">22K Gold · Dragon Head Design</div>
+        <div class="card-price" data-weight="25" data-type="gold">—</div>
+        <div class="card-price-note">Per pair · Statement piece</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle1.jpg" alt="Elephant Head Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Elephant Head Bangles (pair)',28,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Elephant Bangles</div>
+        <div class="card-sub">22K · Elephant Head Clasp</div>
+        <div class="card-price" data-weight="28" data-type="gold">—</div>
+        <div class="card-price-note">Traditional Gajmukhi design · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle2.jpg" alt="Floral Round Bangle">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Floral Kangan (pair)',30,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Floral Kangan</div>
+        <div class="card-sub">22K · Ruby Enamel Flower Centre</div>
+        <div class="card-price" data-weight="30" data-type="gold">—</div>
+        <div class="card-price-note">Enamel meenakari work · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle3.jpg" alt="Textured Gold Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Textured Gold Bangles (pair)',26,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Textured Bangles</div>
+        <div class="card-sub">22K · Scale Texture Body</div>
+        <div class="card-price" data-weight="26" data-type="gold">—</div>
+        <div class="card-price-note">Bold animal head clasp · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle4.jpg" alt="Classic Kangan">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Classic Kangan (pair)',22,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Classic Kangan</div>
+        <div class="card-sub">22K · Engraved Diamond-Cut</div>
+        <div class="card-price" data-weight="22" data-type="gold">—</div>
+        <div class="card-price-note">Dual-head clasp design · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle5.jpg" alt="Purple Tissue Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Ribbed Gold Bangles (pair)',20,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Ribbed Gold Bangles</div>
+        <div class="card-sub">22K · Ribbed Texture · Pair</div>
+        <div class="card-price" data-weight="20" data-type="gold">—</div>
+        <div class="card-price-note">Lightweight everyday wear</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle6.jpg" alt="Enamel Dragon Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Meenakari Dragon Bangles (pair)',32,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Meenakari Dragon Bangles</div>
+        <div class="card-sub">22K · Blue &amp; Red Enamel Work</div>
+        <div class="card-price" data-weight="32" data-type="gold">—</div>
+        <div class="card-price-note">Colourful meenakari · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle7.jpg" alt="Dragon Kangan hand">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Heavy Dragon Kangan (pair)',35,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Heavy Dragon Kangan</div>
+        <div class="card-sub">22K · Diamond-Cut Body · Bold Dragon</div>
+        <div class="card-price" data-weight="35" data-type="gold">—</div>
+        <div class="card-price-note">Premium heavy weight · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle8.jpg" alt="Slim Gold Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Slim Twist Bangles (pair)',15,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Slim Twist Bangles</div>
+        <div class="card-sub">22K · Rope Twist Design · Pair</div>
+        <div class="card-price" data-weight="15" data-type="gold">—</div>
+        <div class="card-price-note">Delicate everyday style</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle9.jpg" alt="Peacock Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Elephant Trunk Bangles (pair)',24,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Elephant Trunk Kangan</div>
+        <div class="card-sub">22K · Elephant Head Clasp</div>
+        <div class="card-price" data-weight="24" data-type="gold">—</div>
+        <div class="card-price-note">Traditional auspicious design · Pair</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="bangles">
+      <div class="card-image">
+        <img class="card-img" src="bangle10.jpg" alt="Double Elephant Bangles">
+        <div class="card-badge">Bangles</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Double Elephant Bangles (pair)',27,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Double Elephant Bangles</div>
+        <div class="card-sub">22K · Two Elephants Clasp · Pair</div>
+        <div class="card-price" data-weight="27" data-type="gold">—</div>
+        <div class="card-price-note">Sacred Gajmukhi pair bangles</div>
+      </div>
+    </div>
+
+    <!-- NOSE RINGS -->
+    <div class="product-card show" data-cat="nosering">
+      <div class="card-image">
+        <img class="card-img" src="nosering.jpg" alt="Nose Rings">
+        <div class="card-badge">Nose Ring</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Gold Nose Ring (1.11g)',1.11,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Gold Nose Rings</div>
+        <div class="card-sub">22K · 1.11g – 1.58g</div>
+        <div class="card-price" data-weight="1.11" data-type="gold">—</div>
+        <div class="card-price-note">Flower design · Multiple sizes</div>
+      </div>
+    </div>
+
+    <div class="product-card show" data-cat="nosering">
+      <div class="card-image">
+        <img class="card-img" src="nosering2.jpg" alt="Floral Nose Ring">
+        <div class="card-badge">Nose Ring</div>
+        <div class="card-overlay"></div>
+        <div class="card-action">
+          <button class="btn btn-gold btn-sm" onclick="addToCart('Floral Gold Nose Ring',1.5,'gold',this)"><i class="fas fa-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Floral Nose Ring</div>
+        <div class="card-sub">22K · Delicate Flower Design</div>
+        <div class="card-price" data-weight="1.5" data-type="gold">—</div>
+        <div class="card-price-note">Traditional bridal style</div>
+      </div>
+    </div>
+
+  </div>
 </div>
 </section>
 
-<section class="section" id="checkout">
-<h2>Checkout</h2>
-<input type="text" id="custName" placeholder="Customer Name">
-<input type="text" id="custPhone" placeholder="Phone Number">
-<button onclick="sendOrder()">Order via WhatsApp</button>
-<button onclick="generateInvoice()">Download Invoice PDF</button>
-</section>
-
-<section class="section" id="contact">
-<h2>Visit Our Store</h2>
-<p>📍 Sirmour, In Front of Police Station<br>📞 +91 9630602966</p>
-<iframe width="100%" height="300"
-src="https://www.google.com/maps?q=24.835995,81.365021&z=17&output=embed"></iframe>
-</section>
-
-<div id="cartBox">
-<h3>Your Cart</h3>
-<button onclick="toggleCart()" style="background:red;color:white;">Close</button>
-<ul id="cartList"></ul>
-<p id="cartTotal">Total: ₹0</p>
+<!-- CHECKOUT -->
+<section id="checkout">
+<div class="checkout-wrap">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Place Your Order</span>
+    <h2 class="section-title">Checkout</h2>
+    <div class="section-rule"><span></span><i class="fas fa-diamond"></i><span></span></div>
+  </div>
+  <div class="checkout-grid">
+    <div class="cart-summary reveal">
+      <h3>Order Summary</h3>
+      <ul id="cartList"></ul>
+      <div id="emptyMsg" class="empty-cart">
+        <i class="fas fa-gem"></i><p>No items yet</p>
+        <p style="font-size:11px;margin-top:6px;color:var(--text-dim)">Browse collection above</p>
+      </div>
+      <div id="cartTotalsBlock" style="display:none;margin-top:20px;">
+        <div class="cart-total-row"><span>Subtotal</span><span id="subTotal">₹0</span></div>
+        <div class="cart-total-row"><span>GST (3%)</span><span id="gstAmt">₹0</span></div>
+        <div class="cart-total-row grand"><span>Grand Total</span><span id="grandTotal">₹0</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="checkout-form">
+        <div class="form-group">
+          <label>Customer Name</label>
+          <input type="text" id="custName" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="form-group">
+          <label>Special Instructions</label>
+          <input type="text" id="custNote" placeholder="Size, design preference…">
+        </div>
+        <div class="checkout-actions">
+          <button class="btn btn-gold" onclick="sendOrder()"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+          <button class="btn btn-outline" onclick="generateInvoice()"><i class="fas fa-file-pdf"></i> Download Invoice PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+</section>
 
+<!-- CONTACT -->
+<section id="contact">
+<div class="contact-inner">
+  <div>
+    <div class="section-header" style="text-align:left;margin-bottom:32px;" class="reveal">
+      <span class="section-eyebrow">Find Us</span>
+      <h2 class="section-title">Visit Our<br>Store</h2>
+      <div class="section-rule" style="justify-content:flex-start;margin-top:16px;">
+        <span></span><i class="fas fa-diamond" style="color:var(--gold);font-size:12px;"></i>
+      </div>
+    </div>
+    <div class="contact-info reveal">
+      <div class="contact-block">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div>
+          <div class="contact-label">Address</div>
+          <div class="contact-value">In Front of Police Station<br>Sirmour, Madhya Pradesh</div>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+        <div>
+          <div class="contact-label">Phone / WhatsApp</div>
+          <div class="contact-value"><a href="tel:+919630602966" style="color:var(--text);text-decoration:none;">+91 96306 02966</a></div>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+        <div>
+          <div class="contact-label">Store Hours</div>
+          <div class="contact-value">Mon – Sat &nbsp;10:00 AM – 8:00 PM<br>Sunday: 11:00 AM – 6:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="map-container reveal">
+    <iframe src="https://www.google.com/maps?q=24.835995,81.365021&z=17&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-© 2026 New Vijay Ornaments | Owner: Sandeep Soni
+  <div>
+    <img src="logo.jpg" alt="Logo" style="height:52px;width:auto;display:block;margin-bottom:8px;">
+    <div class="footer-copy">Proprietor: Sandeep Soni · Sirmour, MP</div>
+  </div>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#collection">Collection</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 New Vijay Ornaments. All Rights Reserved.</div>
 </footer>
 
+<div class="toast" id="toast"><i class="fas fa-check"></i><span id="toastMsg">Added to cart</span></div>
+
 <script>
-let cart=[];
-let goldPerGram=0;
-let silverPerGram=0;
+let cart=[],goldPerGram=0,silverPerGram=0;
 
-function toggleMenu(){
-let box=document.getElementById("menuBox");
-box.style.display=(box.style.display=="flex")?"none":"flex";
-}
-function toggleCart(){
-let c=document.getElementById("cartBox");
-c.style.right=(c.style.right=="0px")?"-320px":"0px";
-}
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);
+});
+document.querySelectorAll('button,a,.product-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.style.transform='translate(-50%,-50%) scale(1.8)');
+  el.addEventListener('mouseleave',()=>ring.style.transform='translate(-50%,-50%) scale(1)');
+});
 
+// Scroll
+window.addEventListener('scroll',()=>document.getElementById('mainHeader').classList.toggle('scrolled',scrollY>60));
+
+// Reveal
+const obs=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Rates
 async function fetchRates(){
-try{
-const g=await fetch("https://api.gold-api.com/price/XAU");
-const s=await fetch("https://api.gold-api.com/price/XAG");
-const gd=await g.json();
-const sd=await s.json();
-const usd=83;
-goldPerGram=(gd.price*usd)/31.1035;
-silverPerGram=(sd.price*usd)/31.1035;
-
-document.getElementById("goldRate").innerText="Live Gold (10g): ₹ "+(goldPerGram*10).toFixed(0);
-document.getElementById("silverRate").innerText="Live Silver (10g): ₹ "+(silverPerGram*10).toFixed(0);
-updatePrices();
-}catch{}
+  try{
+    const[g,s]=await Promise.all([fetch('https://api.gold-api.com/price/XAU'),fetch('https://api.gold-api.com/price/XAG')]);
+    const gd=await g.json(),sd=await s.json(),usd=83;
+    goldPerGram=(gd.price*usd)/31.1035;
+    silverPerGram=(sd.price*usd)/31.1035;
+    document.getElementById('goldRate').textContent='₹'+(goldPerGram*10).toFixed(0);
+    document.getElementById('silverRate').textContent='₹'+(silverPerGram*10).toFixed(0);
+  }catch{
+    goldPerGram=7200;silverPerGram=90;
+    document.getElementById('goldRate').textContent='₹72,000*';
+    document.getElementById('silverRate').textContent='₹900*';
+  }
+  updatePrices();
 }
-fetchRates();
-setInterval(fetchRates,60000);
+fetchRates();setInterval(fetchRates,60000);
 
 function updatePrices(){
-document.querySelectorAll(".price").forEach(el=>{
-let w=el.dataset.weight;
-let type=el.dataset.type;
-let rate=(type=="gold")?goldPerGram:silverPerGram;
-let total=(rate*w)+(300*w);
-el.innerText="Approx Price: ₹"+total.toFixed(0);
-});
+  document.querySelectorAll('.card-price[data-weight]').forEach(el=>{
+    const w=parseFloat(el.dataset.weight),t=el.dataset.type;
+    const rate=t==='gold'?goldPerGram:silverPerGram;
+    el.textContent='₹'+(rate*w+300*w).toFixed(0);
+  });
 }
 
-function addToCart(name,weight,type){
-let rate=(type=="gold")?goldPerGram:silverPerGram;
-let price=(rate*weight)+(300*weight);
-cart.push({name,price});
-renderCart();
+// Filter
+function filterCat(btn,cat){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card=>
+    card.classList.toggle('show',cat==='all'||card.dataset.cat===cat));
 }
 
+// Cart
+function addToCart(name,weight,type,btn){
+  const rate=type==='gold'?goldPerGram:silverPerGram;
+  const price=(rate*weight)+(300*weight);
+  cart.push({name,weight,type,price});
+  renderCart();showToast(name+' added!');
+  if(btn){
+    const orig=btn.innerHTML;
+    btn.innerHTML='<i class="fas fa-check"></i> Added';btn.style.background='#3a7d44';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.background='';},1500);
+  }
+}
+function removeItem(i){cart.splice(i,1);renderCart();}
 function renderCart(){
-let list=document.getElementById("cartList");
-list.innerHTML="";
-let total=0;
-cart.forEach((item,i)=>{
-total+=item.price;
-let li=document.createElement("li");
-li.innerHTML=item.name+" - ₹"+item.price.toFixed(0)+" <button onclick='removeItem("+i+")'>X</button>";
-list.appendChild(li);
-});
-document.getElementById("cartTotal").innerText="Total: ₹"+total.toFixed(0);
-document.getElementById("cartCount").innerText=cart.length;
+  document.getElementById('cartCount').textContent=cart.length;
+  ['cartList','cartListDrawer'].forEach(id=>{
+    const ul=document.getElementById(id);ul.innerHTML='';
+    cart.forEach((item,i)=>{
+      const li=document.createElement('li');
+      li.innerHTML=`<span class="item-name">${item.name}</span><span style="display:flex;align-items:center;gap:8px;"><span class="item-price">₹${item.price.toFixed(0)}</span><button class="remove-btn" onclick="removeItem(${i})"><i class="fas fa-times"></i></button></span>`;
+      ul.appendChild(li);
+    });
+  });
+  const sub=cart.reduce((a,b)=>a+b.price,0),gst=sub*0.03,grand=sub+gst,has=cart.length>0;
+  document.getElementById('emptyMsg').style.display=has?'none':'block';
+  document.getElementById('cartTotalsBlock').style.display=has?'block':'none';
+  document.getElementById('drawerEmpty').style.display=has?'none':'block';
+  document.getElementById('drawerTotals').style.display=has?'block':'none';
+  if(has){
+    document.getElementById('subTotal').textContent='₹'+sub.toFixed(0);
+    document.getElementById('gstAmt').textContent='₹'+gst.toFixed(0);
+    document.getElementById('grandTotal').textContent='₹'+grand.toFixed(0);
+    document.getElementById('drawerSub').textContent='₹'+sub.toFixed(0);
+    document.getElementById('drawerGST').textContent='₹'+gst.toFixed(0);
+    document.getElementById('drawerTotal').textContent='₹'+grand.toFixed(0);
+  }
 }
-
-function removeItem(i){
-cart.splice(i,1);
 renderCart();
+
+function toggleCart(){
+  const d=document.getElementById('cartDrawer'),o=document.getElementById('cartOverlay');
+  d.classList.toggle('open');o.style.display=d.classList.contains('open')?'block':'none';
+}
+function closeCart(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').style.display='none';
+}
+function openMobileNav(){document.getElementById('mobileNav').classList.add('open');}
+function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);
 }
 
 function sendOrder(){
-let name=document.getElementById("custName").value;
-let phone=document.getElementById("custPhone").value;
-let total=document.getElementById("cartTotal").innerText;
-let msg="Order from "+name+"%0APhone: "+phone+"%0A"+total;
-window.open("https://wa.me/919630602966?text="+msg);
+  const name=document.getElementById('custName').value||'Customer';
+  const phone=document.getElementById('custPhone').value||'N/A';
+  const note=document.getElementById('custNote').value;
+  if(!cart.length){showToast('Cart is empty');return;}
+  const sub=cart.reduce((a,b)=>a+b.price,0);
+  const grand=(sub*1.03).toFixed(0);
+  const items=cart.map(c=>`• ${c.name}: ₹${c.price.toFixed(0)}`).join('%0A');
+  const msg=`*New Order – New Vijay Ornaments*%0A%0A*Customer:* ${name}%0A*Phone:* ${phone}%0A%0A*Items:*%0A${items}%0A%0A*Grand Total (incl. 3% GST):* ₹${grand}${note?'%0A%0A*Note:* '+note:''}`;
+  window.open(`https://wa.me/919630602966?text=${msg}`,'_blank');
 }
 
 async function generateInvoice(){
-const { jsPDF } = window.jspdf;
-const doc=new jsPDF();
-let name=document.getElementById("custName").value||"Customer";
-let phone=document.getElementById("custPhone").value||"N/A";
-doc.text("New Vijay Ornaments",20,20);
-doc.text("Owner: Sandeep Soni",20,28);
-doc.text("Customer: "+name,20,40);
-doc.text("Phone: "+phone,20,48);
-let y=60,total=0;
-cart.forEach(item=>{
-doc.text(item.name+" - ₹"+item.price.toFixed(0),20,y);
-total+=item.price;y+=8;
-});
-let gst=total*0.03;
-doc.text("Subtotal: ₹"+total.toFixed(0),20,y+10);
-doc.text("GST (3%): ₹"+gst.toFixed(0),20,y+18);
-doc.text("Total: ₹"+(total+gst).toFixed(0),20,y+26);
-doc.save("Invoice_NewVijayOrnaments.pdf");
+  if(!cart.length){showToast('Cart is empty');return;}
+  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+  const name=document.getElementById('custName').value||'Valued Customer';
+  const phone=document.getElementById('custPhone').value||'N/A';
+  const now=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  doc.setFillColor(12,8,2);doc.rect(0,0,210,48,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(201,168,76);
+  doc.text('NEW VIJAY ORNAMENTS',105,18,{align:'center'});
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(180,160,120);
+  doc.text('Sirmour, In Front of Police Station  |  +91 96306 02966',105,27,{align:'center'});
+  doc.text('Wholesaler of Gold  |  Proprietor: Sandeep Soni',105,34,{align:'center'});
+  doc.setTextColor(40,40,40);doc.setFontSize(10);doc.setFont('helvetica','bold');
+  doc.text('INVOICE',14,60);doc.setFont('helvetica','normal');doc.setFontSize(9);
+  doc.text(`Date: ${now}`,14,68);doc.text(`Customer: ${name}`,14,75);doc.text(`Phone: ${phone}`,14,82);
+  const sy=94;doc.setFillColor(201,168,76);doc.rect(14,sy,182,9,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(18,12,0);
+  doc.text('Item',17,sy+6.5);doc.text('Wt.',130,sy+6.5);doc.text('Price',190,sy+6.5,{align:'right'});
+  let y=sy+16,sub=0;doc.setFont('helvetica','normal');
+  cart.forEach((item,i)=>{
+    sub+=item.price;
+    if(i%2===0){doc.setFillColor(252,248,238);doc.rect(14,y-6,182,9,'F');}
+    doc.setTextColor(30,30,30);doc.text(item.name,17,y);doc.text(item.weight+'g',133,y);
+    doc.setTextColor(140,100,20);doc.text('₹'+item.price.toFixed(0),190,y,{align:'right'});
+    y+=10;
+  });
+  const gst=sub*0.03,grand=sub+gst;
+  y+=6;doc.setDrawColor(201,168,76);doc.line(14,y,196,y);y+=8;
+  doc.setTextColor(50,50,50);doc.setFontSize(9);
+  doc.text('Subtotal',130,y);doc.text('₹'+sub.toFixed(0),190,y,{align:'right'});y+=8;
+  doc.text('GST @ 3%',130,y);doc.text('₹'+gst.toFixed(0),190,y,{align:'right'});y+=8;
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(140,100,20);
+  doc.text('Grand Total',120,y);doc.text('₹'+grand.toFixed(0),190,y,{align:'right'});
+  doc.setFontSize(8);doc.setFont('helvetica','italic');doc.setTextColor(130,120,100);
+  doc.text('Thank you for choosing New Vijay Ornaments. This is a computer generated invoice.',105,275,{align:'center'});
+  doc.save('Invoice_NewVijayOrnaments.pdf');
+  showToast('Invoice downloaded!');
 }
 </script>
-
 </body>
 </html>
